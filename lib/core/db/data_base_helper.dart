@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:path/path.dart';
 import 'package:pr2/data/model/brand.dart';
@@ -25,7 +24,7 @@ class DataBaseHelper {
   late final Directory _appDocumentDirectory;
   late final String _pathDB;
   late final Database database;
-  final int _version = 1;
+  final int _version = 14;
 
   Future<void> init() async {
     _appDocumentDirectory =
@@ -33,21 +32,25 @@ class DataBaseHelper {
 
     _pathDB = join(_appDocumentDirectory.path, 'car.db');
 
-    if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+    if (Platform.isLinux || Platform.isWindows) {
       sqfliteFfiInit();
-      var db = await databaseFactoryFfi.openDatabase(_pathDB,
+      database = await databaseFactoryFfi.openDatabase(_pathDB,
           options: OpenDatabaseOptions(
             version: _version,
-            onUpgrade: (db, oldVersion, newVersion) => onUpgradeTable(db),
-            onCreate: (db, version) async {
-              await onCreateTable(db);
-            },
-          ));
-    } else {
-      database = await openDatabase(_pathDB, version: _version,
+            onUpgrade: (db, oldVersion, newVersion) async =>
+              await onUpgradeTable(db),
           onCreate: (db, version) async {
+            await onCreateTable(db);
+          },
+        ));
+    } else {
+      database = await openDatabase(
+        _pathDB, 
+        version: _version,
+        onUpgrade: (db, oldVersion, newVersion) => onUpgradeTable(db),
+        onCreate: (db, version) async {
         await onCreateTable(db);
-      }, onUpgrade: ((db, oldVersion, newVersion) => onUpgradeTable(db)));
+      });
     }
   }
 
@@ -56,7 +59,7 @@ class DataBaseHelper {
       await db.execute(table);
     }
 
-    db.execute('PRAGMA foreign_keys=on');
+    // db.execute('PRAGMA foreign_keys=on');
     await onInitTable(db);
   }
 
@@ -65,20 +68,18 @@ class DataBaseHelper {
       db.insert(DataBaseRequest.tableRole, Role(role: "Администратор").toMap());
       db.insert(DataBaseRequest.tableRole, Role(role: "Пользователь").toMap());
 
+      // db.insert(
+      //     DataBaseRequest.tableUser,
+      //     User(
+      //             login: "lionlion",
+      //             password: "12345678",
+      //             idRole: RoleEnum.user)
+      //         .toMap());
       db.insert(
           DataBaseRequest.tableUser,
           User(
-                  phone: "+7(999)111 22 33",
-                  login: "lion",
-                  password: "123",
-                  idRole: RoleEnum.user)
-              .toMap());
-      db.insert(
-          DataBaseRequest.tableUser,
-          User(
-                  phone: "+7(000)222 33 44",
-                  login: "user",
-                  password: "user",
+                  login: "useruse",
+                  password: "useruse1",
                   idRole: RoleEnum.admin)
               .toMap());
 
@@ -142,20 +143,22 @@ class DataBaseHelper {
   }
 
   Future<void> onUpgradeTable(Database db) async {
-    var tables = await db.rawQuery('SELECT name FROM sqlite_master');
-
-    for (var table in DataBaseRequest.tableCreateList) {
-      if (tables.contains(table)) {
+    var tables = await db.rawQuery('SELECT name  FROM sqlite_master;');
+    for (var table in DataBaseRequest.tableList.reversed) {
+      if (tables.where((element) => element['name'] == table).isNotEmpty) {
         await db.execute(DataBaseRequest.deleteTable(table));
       }
     }
-    await onCreateTable(db);
+    for (var createTable in DataBaseRequest.tableCreateList) {
+      await db.execute(createTable);
+    }
+    await onInitTable(db);
   }
 
   Future<void> onDropDataBase() async {
     database.close();
 
-    if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+    if (Platform.isWindows) {
       databaseFactoryFfi.deleteDatabase(_pathDB);
     } else {
       await deleteDatabase(_pathDB);
