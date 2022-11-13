@@ -5,33 +5,52 @@ class Main extends StatefulWidget {
 
   @override
   State<Main> createState() => _MainState();
+  
 }
 
 class _MainState extends State<Main> {
-  List<CardInformationModel> cardInformationList = [
-    CardInformationModel(
-      background: Color(0xFFad5880),
-      iconCard: Icons.person,
-      textCard: 'Пользователи: ',
-      iconAdd: Icons.person_add,
-      onTap: () {},
-    ),
-  ];
+  // List<CardInformationModel> cardInformationList = [
+  //   CardInformationModel(
+  //     background: Color(0xFFad5880),
+  //     iconCard: Icons.person,
+  //     textCard: 'Пользователи: ',
+  //     iconAdd: Icons.person_add,
+  //     onTap: () {},
+  //   ),
+  // ];
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: cardInformationList.length,
-      itemBuilder: (context, index) {
-        return cardInformation(
-          cardInformationList[index].background,
-          cardInformationList[index].iconCard,
-          cardInformationList[index].textCard,
-          cardInformationList[index].iconAdd,
-          cardInformationList[index].onTap,
-        );
-      },
+    // return ListView.builder(
+    //   itemCount: cardInformationList.length,
+    //   itemBuilder: (context, index) {
+    //     return cardInformation(
+    //       cardInformationList[index].background,
+    //       cardInformationList[index].iconCard,
+    //       cardInformationList[index].textCard,
+    //       cardInformationList[index].iconAdd,
+    //       cardInformationList[index].onTap,
+    //     );
+    //   },
+    // );
+    return Scaffold(
+      body: 
+      Center(child: 
+        Column(
+          children: [
+            Text('Вы админ'),
+            SizedBox(height: 100,),
+            Container(child: ElevatedButton(
+              onPressed: () => 
+              Navigator.pushNamedAndRemoveUntil(
+                  context, 'sign_in', (route) => false),
+              child: Text('Выйти')),
+              ),
+          ],
+        ),
+      )
     );
+  }
   }
 
   Widget cardInformation(
@@ -93,9 +112,9 @@ class _MainState extends State<Main> {
                   const Spacer(),
                   InkWell(
                     onTap: () {
-                      setState(() {
-                        onTap();
-                      });
+                      // setState(() {
+                      //   onTap();
+                      // });
                     },
                     borderRadius: BorderRadius.circular(10),
                     child: Container(
@@ -111,7 +130,6 @@ class _MainState extends State<Main> {
       ),
     );
   }
-}
 
 class CardInformationModel {
   final Color background;

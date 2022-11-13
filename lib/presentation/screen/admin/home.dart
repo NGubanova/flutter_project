@@ -37,32 +37,32 @@ class _HomeAdminState extends State<HomeAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(appbarTitle[index]),
-        backgroundColor: Color(0xFFad5880),
-        actions: index == 0
-            ? null
-            : [
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(5),
-                    onTap: () {
-                      if (actionNavigatorList[index] != '') {
-                        Navigator.pushNamed(
-                            context, actionNavigatorList[index]);
-                      }
-                    },
-                    child: const SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: Icon(Icons.add),
-                    ),
-                  ),
-                )
-              ],
-      ),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   title: Text(appbarTitle[index]),
+      //   backgroundColor: Color(0xFFad5880),
+      //   actions: index == 0
+      //       ? null
+      //       : [
+      //           Padding(
+      //             padding: const EdgeInsets.all(12),
+      //             child: InkWell(
+      //               borderRadius: BorderRadius.circular(5),
+      //               onTap: () {
+      //                 if (actionNavigatorList[index] != '') {
+      //                   Navigator.pushNamed(
+      //                       context, actionNavigatorList[index]);
+      //                 }
+      //               },
+      //               child: const SizedBox(
+      //                 width: 30,
+      //                 height: 30,
+      //                 child: Icon(Icons.add),
+      //               ),
+      //             ),
+      //           )
+      //         ],
+      // ),
       drawer: DrawerAdmin(
         index: (index, title) {
           setState(() {

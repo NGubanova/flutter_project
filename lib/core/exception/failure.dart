@@ -24,8 +24,6 @@ class FailureImpl extends Failure {
     }
   }
 }
-
-/// Класс отвечающий за не известные ошибки
 class DefaultFailure implements Failure {
   @override
   String errorMessage = 'Не известная ошибка';
@@ -34,8 +32,6 @@ class DefaultFailure implements Failure {
   int code = 0;
 }
 
-/// Класс отвечающий за ошибку при добавлении дубликата в базу
-/// дынных если у поля стоит unique
 class InsertFailure implements Failure {
   @override
   String errorMessage = 'Такие данные уже есть в базе данных';
@@ -44,7 +40,6 @@ class InsertFailure implements Failure {
   int code = 1555;
 }
 
-/// Класс отвечающий за ошибку что данного пользователя нет в системе
 class AuthUserEmptyFailure implements Failure {
   @override
   String errorMessage = 'Такого пользователя нет в системе';
