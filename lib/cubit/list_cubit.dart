@@ -18,7 +18,6 @@ class ListCubit extends Cubit<ListState> {
     } else {
       elements.add("Циферка: $count Темнота друг молодежи, в темноте не видно рожи".replaceAll("Entry", ""));
     }
-    
     counts++;
 
     emit(OnClickAdd());

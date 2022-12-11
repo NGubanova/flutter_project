@@ -5,8 +5,12 @@ abstract class ClickState {}
 
 class ClickInitial extends ClickState {}
 
-class ClickLight extends ClickState{}
+class ClickAddLight extends ClickState{}
 
-class ClickDark extends ClickState{}
+class ClickAddDark extends ClickState{}
+
+class ClickRemoveLight extends ClickState{}
+
+class ClickRemoveDark extends ClickState{}
 
 class OnClick extends ClickState{}

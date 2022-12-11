@@ -63,28 +63,80 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Циферка: ',
-                  ),
-                  BlocBuilder<ClickCubit, ClickState>(
-                      builder: (context, state) {
-                    if (state is OnClick) {
-                      return Text(
-                        context.read<ClickCubit>().count.toString(),
-                        style: Theme.of(context).textTheme.headline5,
-                      );
-                    }
-
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                const Text(
+                  'Циферка: ',
+                ),
+                BlocBuilder<ClickCubit, ClickState>(builder: (context, state) {
+                  if (state is OnClick) {
                     return Text(
-                      "пока 0, нажми на мои кнопочки",
+                      context.read<ClickCubit>().count.toString(),
                       style: Theme.of(context).textTheme.headline5,
                     );
-                  })
-                ],
-              ),
+                  }
+                  return Text(
+                    "пока 0, нажми на мои кнопочки",
+                    style: Theme.of(context).textTheme.headline5,
+                  );
+                }),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    BlocBuilder<ThemeCubit, ThemeState>(
+                      builder: (context, state) {
+                        if (context.read<ThemeCubit>().themes ==
+                            Brightness.light) {
+                          return FloatingActionButton(
+                            onPressed: () {
+                              context.read<ClickCubit>().ClickAddLight();
+                              context.read<ListCubit>().ClickAdd(
+                                  context.read<ClickCubit>().count,
+                                  context.read<ThemeCubit>().themes);
+                            },
+                            child: const Icon(Icons.add),
+                          );
+                        } else {
+                          return FloatingActionButton(
+                            onPressed: () {
+                              context.read<ClickCubit>().ClickAddDark();
+                              context.read<ListCubit>().ClickAdd(
+                                  context.read<ClickCubit>().count,
+                                  context.read<ThemeCubit>().themes);
+                            },
+                            child: const Icon(Icons.add),
+                          );
+                        }
+                      },
+                    ),
+                    BlocBuilder<ThemeCubit, ThemeState>(
+                      builder: (context, state) {
+                        if (context.read<ThemeCubit>().themes ==
+                            Brightness.light) {
+                          return FloatingActionButton(
+                            onPressed: () {
+                              context.read<ClickCubit>().ClickRemoveLight();
+                              context.read<ListCubit>().ClickAdd(
+                                  context.read<ClickCubit>().count,
+                                  context.read<ThemeCubit>().themes);
+                            },
+                            child: const Icon(Icons.remove),
+                          );
+                        } else {
+                          return FloatingActionButton(
+                            onPressed: () {
+                              context.read<ClickCubit>().ClickRemoveDark();
+                              context.read<ListCubit>().ClickAdd(
+                                  context.read<ClickCubit>().count,
+                                  context.read<ThemeCubit>().themes);
+                            },
+                            child: const Icon(Icons.remove),
+                          );
+                        }
+                      },
+                    )
+                  ],
+                ),
+              ]),
               const Padding(padding: EdgeInsets.only(bottom: 15)),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -140,33 +192,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            BlocBuilder<ThemeCubit, ThemeState>(
-              builder: (context, state) {
-                if (context.read<ThemeCubit>().themes == Brightness.light) {
-                  return FloatingActionButton(
-                    onPressed: () {
-                      context.read<ClickCubit>().ClickLight();
-                      context.read<ListCubit>().ClickAdd(
-                          context.read<ClickCubit>().count,
-                          context.read<ThemeCubit>().themes);
-                    },
-                    child: const Icon(Icons.add),
-                  );
-                } else {
-                  return FloatingActionButton(
-                    onPressed: () {
-                      context.read<ClickCubit>().ClickDark();
-                      context.read<ListCubit>().ClickAdd(
-                          context.read<ClickCubit>().count,
-                          context.read<ThemeCubit>().themes);
-                    },
-                    child: const Icon(Icons.add),
-                  );
-                }
-              },
-            ),
             FloatingActionButton(
               onPressed: () {
                 context.read<ThemeCubit>().ThemeClick();
@@ -176,8 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (state is ThemeClick) {
                     context.read<ThemeCubit>().icon;
                   }
-                  return
-                  context.read<ThemeCubit>().icon;
+                  return context.read<ThemeCubit>().icon;
                 },
               ),
             ),

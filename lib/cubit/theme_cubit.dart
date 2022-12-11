@@ -10,18 +10,18 @@ class ThemeCubit extends Cubit<ThemeState> {
   ThemeCubit() : super(ThemeInitial());
 
   Brightness themes = Brightness.light;
-  Icon icon = const Icon(Icons.brightness_5);
+  Icon icon = const Icon(Icons.brightness_2);
 
   void ThemeClick() {
     emit(OnThemeClick());
 
     if (themes == Brightness.light) {
       themes = Brightness.dark;
-      icon=Icon(Icons.brightness_2);
+      icon=Icon(Icons.brightness_5);
       emit(OnThemeClick());
     } else {
       themes = Brightness.light;
-      icon = Icon(Icons.brightness_5);
+      icon = Icon(Icons.brightness_2);
       emit(OnThemeClick());
     }
   }

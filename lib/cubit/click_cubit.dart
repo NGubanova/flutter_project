@@ -8,16 +8,22 @@ class ClickCubit extends Cubit<ClickState> {
 
   int count = 0;
 
-  void ClickLight() {
-
+  void ClickAddLight() {
     count++;
     emit(OnClick());
   }
 
-  void ClickDark() {
-
-    count+=2;
+  void ClickAddDark() {
+    count += 2;
+    emit(OnClick());
+  }
+  void ClickRemoveLight() {
+    count--;
     emit(OnClick());
   }
 
+  void ClickRemoveDark() {
+    count -= 2;
+    emit(OnClick());
+  }
 }
