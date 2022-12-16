@@ -81,10 +81,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 50,
                 child: TextField(
                   decoration: InputDecoration(
-                    labelText: 'Введите текст'
+                    hintText: 'Введите текст'
                   ),
                   controller: controller,
-                  style: Theme.of(context).textTheme.headlineMedium,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
               const Padding(padding: EdgeInsets.only(bottom: 50)),
@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               builder: (_) => Screen(widget.sharedPreferences),
                             ))
                       },
-                  child: const Text('Вторая страница'),
+                  child: const Text('Вторая страницa'),
                   ),
               const Padding(padding: EdgeInsets.only(bottom: 50)),
               FloatingActionButton(
